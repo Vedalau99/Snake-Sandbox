@@ -20,15 +20,15 @@ From beginner logic to real-world simulations — this repo grows with my skills
 
 |-------------------|-------------|
 
-| `projects/`       | Individual mini projects (e.g., menu app, bus simulator, etc.) |
+| `Py projects/`       | Individual mini projects (e.g., menu app, bus simulator, etc.) |
 
-| `scripts/`        | Standalone Python logic scripts and utilities |
+| `Babypython`        | Standalone Python logic scripts and utilities |
 
 | `notebooks/`      | (Optional) Jupyter Notebooks for testing and learning |
 
 | `README.md`       | You’re here! |
 
-| `.gitignore`      | Keeps your repo clean from unwanted files |
+| `.gitignore`      | Keeps repo clean from unwanted files |
 
 
 
@@ -44,7 +44,7 @@ From beginner logic to real-world simulations — this repo grows with my skills
 
 \# Clone the repository
 
-git clone https://github.com/<your-username>/snake-sandbox.git
+git clone https://github.com/Vedalau99/snake-sandbox.git
 
 cd snake-sandbox
 
