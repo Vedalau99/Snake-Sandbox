@@ -36,23 +36,6 @@ From beginner logic to real-world simulations — this repo grows with my skills
 
 
 
-\##  How to Run
-
-
-
-```bash
-
-\# Clone the repository
-
-git clone https://github.com/Vedalau99/snake-sandbox.git
-
-cd snake-sandbox
-
-
-
-\# Run a Python file
-
-
 
 
 
