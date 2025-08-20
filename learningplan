@@ -1,0 +1,399 @@
+# Python → Cloud Log Automation: Step‑by‑Step Roadmap (Beginner → Confident Scripter)
+
+Welcome, Uma! This is a hands‑on path to go from Python basics to confidently writing automation that parses, summarizes, and alerts on logs (locally and in the cloud). Work top‑to‑bottom; every module has bite‑size exercises with expected outputs and stretch goals. Paste your solutions back in chat for quick feedback.
+
+---
+
+## How to Use This Roadmap
+
+* ⚙️ **Environment**: Python ≥ 3.10 (3.12+ preferred). Use a virtualenv per project.
+* 🧪 **Practice style**: Small, focused exercises, then a tiny project each module.
+* ✅ **Success criteria**: Each module lists what you should be able to do before moving on.
+* ⏱️ **Pacing**: 60–90 mins per module (adjust as needed).
+
+---
+
+## Prereqs & Setup (Module 0)
+
+**Goals**: Be able to run Python scripts, manage packages, and keep your project tidy.
+
+**Tasks**
+
+1. Install Python 3.12+.
+2. Create a virtual environment and activate it.
+3. Create `hello.py` and run it.
+4. Install a package (e.g., `requests`), freeze requirements.
+
+**Snippets**
+
+```bash
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# macOS/Linux:
+source .venv/bin/activate
+python -V
+pip install requests
+pip freeze > requirements.txt
+```
+
+**You can move on when you can:** activate/deactivate a venv, run a script, install a package, and pin deps.
+
+---
+
+## Module 1 — Python Basics (Warm‑up & Refresh)
+
+**Concepts**: variables, types, input/output, operators, f‑strings.
+
+**Exercises**
+
+1. **Temperature Converter**: Input in °C; output in °F (round to 1 decimal).
+   *Example*: `36.6 → 97.9`
+2. **Simple Calculator**: Read `a`, `b` and an operator (+, -, \*, /); print the result or an error for unknown operator.
+3. **FizzBuzz+**: For 1..50, print `Fizz` if multiple of 3, `Buzz` if 5, `FizzBuzz` if both, else the number.
+
+**Stretch**: Add input validation (non‑numeric → friendly message) and tests (see Module 6/9).
+
+**You can move on when you can:** write small scripts, get/validate input, print clean output.
+
+---
+
+## Module 2 — Control Flow & Comprehensions
+
+**Concepts**: if/elif/else, for/while, `break`/`continue`, list/set/dict comprehensions.
+
+**Exercises**
+
+1. **Primes**: Print primes up to N.
+2. **List Ops**: From a list of ints, build two lists: evens and odds (use comprehensions).
+3. **Flatten**: Flatten `[[1,2],[3,4],[5]]` → `[1,2,3,4,5]`.
+
+**Stretch**: Generate first N Fibonacci numbers (iterative and generator version).
+
+**You can move on when you can:** transform collections succinctly with comprehensions.
+
+---
+
+## Module 3 — Functions (Clean, Reusable Code)
+
+**Concepts**: def, return, default args, keyword args, `*args`/`**kwargs`, docstrings.
+
+**Exercises**
+
+1. `is_even(n)` and `sum_of_evens(iterable)` — concise & tested.
+2. `normalize_whitespace(text)` → collapse multiple spaces/tabs/newlines to single spaces.
+3. `chunk(iterable, size)` → yields lists of length `size` (last may be shorter).
+
+**Stretch**: Add type hints and a simple doctest in the docstring.
+
+**You can move on when you can:** design small, well‑named, reusable utilities.
+
+---
+
+## Module 4 — Core Data Structures (List / Tuple / Set / Dict)
+
+**Concepts**: when to use each; common methods; performance intuition.
+
+**Exercises**
+
+1. **Word Frequency** (dict + `collections.Counter`).
+2. **Unique Elements** (set): remove duplicates while preserving order (hint: seen set + list).
+3. **Phonebook** (dict): add, update, delete, lookup; handle missing keys gracefully.
+
+**Stretch**: Merge two dicts of counts, summing overlaps.
+
+**You can move on when you can:** choose the right structure and justify why.
+
+---
+
+## Module 5 — Strings & Regular Expressions (Log‑ready)
+
+**Concepts**: slicing, `.split()`, `.join()`, `.strip()`, `re.findall`, capture groups.
+
+**Exercises**
+
+1. Extract all IPv4 addresses from a text blob.
+   *Expected*: list like `['192.168.0.10', '10.0.1.7']`
+2. From log lines, extract timestamp + status code.
+   Example line:
+   `127.0.0.1 - - [10/Oct/2024:13:55:36 +0000] "GET /index.html HTTP/1.1" 200 2326`
+3. Validate ISO8601 timestamps (`2025-08-20T07:15:30Z`).
+
+**Stretch**: Replace all emails with `<redacted>`.
+
+**You can move on when you can:** write robust regexes you understand and can explain.
+
+---
+
+## Module 6 — Files, JSON & CSV (Streaming Logs)
+
+**Concepts**: `open()` context managers, line‑by‑line processing, `json`, `csv`.
+
+**Exercises**
+
+1. **Line Counter**: Count total lines and non‑empty lines in a large file without loading it fully.
+2. **Nginx Status Summary**: Given `access.log`, compute a dict `{status_code: count}`.
+3. **JSON Transform**: Read newline‑delimited JSON logs; keep only fields `timestamp`, `level`, `message`; write to `clean.jsonl`.
+
+**Stretch**: Write a **log rotator** that archives files > 10 MB with a timestamped filename.
+
+**You can move on when you can:** process big files in O(1) memory and emit clean JSON.
+
+---
+
+## Module 7 — Modules, Packages, and a Real CLI (argparse)
+
+**Concepts**: imports, your own module, `argparse` CLI, project layout.
+
+**Mini‑Project**: **`logtool` CLI**
+
+* `logtool top-status --file access.log --n 5`
+* `logtool find --file app.log --pattern "ERROR|WARN"`
+* `logtool redact-emails --in app.log --out app.redacted.log`
+
+**Acceptance**: Running the above prints correct results with helpful `--help` text.
+
+**Stretch**: Add `--json` output mode and exit codes (0=ok, non‑0=errors found).
+
+---
+
+## Module 8 — Errors & Robustness
+
+**Concepts**: `try/except/else/finally`, custom exceptions, defensive I/O.
+
+**Exercises**
+
+1. Wrap file reading with graceful errors (missing file, permission denied).
+2. Retry pattern for transient errors (function decorator with exponential backoff for I/O ops).
+3. Validate CLI args and exit with clear messages.
+
+**You can move on when you can:** never crash ungracefully; log and continue when possible.
+
+---
+
+## Module 9 — Testing & Quality
+
+**Concepts**: `pytest`, fixtures, parametrization; formatting/linting with `black` + `ruff`.
+
+**Exercises**
+
+1. Write tests for `word_frequency`, `chunk`, and your regex extractors.
+2. Parametrize tests with edge cases (empty input, huge input, weird unicode).
+3. Add `pre-commit` hooks for `black` & `ruff`.
+
+**Acceptance**: `pytest -q` passes; code auto‑formatted.
+
+---
+
+## Module 10 — Time & Dates (Logs Live in Time)
+
+**Concepts**: `datetime`, `timezone` (`zoneinfo`), parsing/formatting, time windows.
+
+**Exercises**
+
+1. Parse Apache timestamps to aware `datetime` objects.
+2. Filter logs to "last 15 minutes" and "today".
+3. Convert UTC timestamps to Asia/Kolkata and format for reports.
+
+**Stretch**: Implement a rolling time window aggregator (e.g., errors per 5‑min bucket).
+
+---
+
+## Module 11 — HTTP, APIs & Rate Limits
+
+**Concepts**: `requests`, timeouts, retries, backoff, pagination.
+
+**Exercises**
+
+1. Fetch a paginated JSON API and stream to `data.jsonl` with retries.
+2. Build a tiny Slack notifier (`POST` to webhook) → `notify("High error rate")`.
+3. Add a token header from `os.environ["API_TOKEN"]` safely.
+
+**Stretch**: Circuit breaker: if 5 consecutive failures, stop and alert.
+
+---
+
+## Module 12 — Concurrency for I/O (Process Many Files Fast)
+
+**Concepts**: `concurrent.futures` (ThreadPool), `asyncio` for HTTP.
+
+**Exercises**
+
+1. Read and summarize 20 log files concurrently (ThreadPool) into one report.
+2. `asyncio` script that `GET`s 50 URLs and records latency percentiles.
+
+**Stretch**: Merge results thread‑safely with `collections.Counter`.
+
+---
+
+## Module 13 — (Optional) Pandas for Summaries
+
+**Concepts**: DataFrames from CSV/JSONL, grouping/aggregation, quick plots.
+
+**Exercises**
+
+1. Load `clean.jsonl`; compute errors per hour.
+2. Export `report.csv` with top endpoints and p95 latency.
+
+**Stretch**: Produce an HTML report from a Jinja2 template.
+
+---
+
+## Module 14 — Cloud SDKs (Boto3 / GCP / Azure) — Sim → Real
+
+**Concepts**: Structure your code so it works offline on files **and** online via SDKs.
+
+**Exercises (dry‑run friendly)**
+
+1. Design an interface `LogSource` with two implementations: `FileLogSource` and `CloudWatchLogSource` (stub methods for now).
+2. For AWS (later, when you have creds): list log groups, filter events by pattern and time range.
+3. Reuse your `logtool` to accept `--source cloudwatch --group "+/my/app"`.
+
+**Stretch**: Abstract to support GCP Logging (google‑cloud‑logging) with the same CLI.
+
+---
+
+## Module 15 — Packaging, Docker & Scheduling
+
+**Concepts**: `pyproject.toml` packaging, `pipx` install, Dockerizing, cron.
+
+**Exercises**
+
+1. Package `logtool` as an installable CLI (`pipx install .`).
+2. Create a small Dockerfile; log files mounted as a volume; run CLI inside container.
+3. Add a cron entry (or GitHub Action) that runs nightly and emails a report.
+
+**Stretch**: Push image to a registry and run as a Kubernetes CronJob.
+
+---
+
+## Capstone Project — "Sentinel: Smart Log Monitor"
+
+**Goal**: Build a production‑style log monitor that:
+
+* Ingests from **files** (now) and **CloudWatch** (later).
+* Has **rules** (YAML): patterns, thresholds, time windows, severity.
+* Emits **alerts** to console and Slack webhook.
+* Ships as a clean CLI (`sentinel ...`).
+
+**Minimum Features**
+
+* `sentinel watch --file access.log --pattern "(5\d\d)" --window 5m --threshold 20`
+* Rolling window counts; if count >= threshold → send alert once, then cool down.
+* `--json` structured output to stdout.
+
+**Bonus**
+
+* Configurable sinks (stdout, file, Slack).
+* Pluggable sources (files, CloudWatch later).
+* Unit tests for the rule engine.
+
+**Acceptance Checklist**
+
+* [ ] Handles large files streaming.
+* [ ] Clear `--help` and examples.
+* [ ] Graceful errors; exit codes used meaningfully.
+* [ ] Tests cover happy & edge cases.
+
+---
+
+## Cheat Sheet — Patterns You’ll Reuse
+
+**Streaming a big file**
+
+```python
+with open(path, "r", encoding="utf-8", errors="replace") as f:
+    for line in f:
+        ...
+```
+
+**Regex with capture groups**
+
+```python
+m = re.search(r"(\d{3})\s+(\d+)$", line)
+if m:
+    status = int(m.group(1))
+    size = int(m.group(2))
+```
+
+**Counter aggregation**
+
+```python
+from collections import Counter
+counts = Counter()
+for k in keys:
+    counts[k] += 1
+```
+
+**Argparse CLI skeleton**
+
+```python
+import argparse
+
+def build_parser():
+    p = argparse.ArgumentParser(prog="logtool")
+    sub = p.add_subparsers(dest="cmd", required=True)
+
+    top = sub.add_parser("top-status")
+    top.add_argument("--file", required=True)
+    top.add_argument("--n", type=int, default=5)
+
+    return p
+
+if __name__ == "__main__":
+    args = build_parser().parse_args()
+    # dispatch by args.cmd
+```
+
+**Datetime parse & window**
+
+```python
+from datetime import datetime, timezone, timedelta
+
+ts = datetime.strptime("10/Oct/2024:13:55:36 +0000", "%d/%b/%Y:%H:%M:%S %z")
+now = datetime.now(timezone.utc)
+if now - ts <= timedelta(minutes=15):
+    ...
+```
+
+**Retries (simple backoff)**
+
+```python
+import time
+
+def retry(fn, attempts=3, base=0.5):
+    for i in range(attempts):
+        try:
+            return fn()
+        except Exception as e:
+            if i == attempts - 1:
+                raise
+            time.sleep(base * (2 ** i))
+```
+
+---
+
+## Suggested Order of Work (Checklist)
+
+* [ ] Module 0: Setup
+* [ ] Module 1: Basics
+* [ ] Module 2: Control + Comprehensions
+* [ ] Module 3: Functions
+* [ ] Module 4: Data Structures
+* [ ] Module 5: Strings + Regex
+* [ ] Module 6: Files + JSON/CSV
+* [ ] Module 7: CLI with argparse
+* [ ] Module 8: Errors
+* [ ] Module 9: Testing
+* [ ] Module 10: Time
+* [ ] Module 11: HTTP/APIs
+* [ ] Module 12: Concurrency
+* [ ] Module 13: (Optional) Pandas
+* [ ] Module 14: Cloud SDKs
+* [ ] Module 15: Package + Docker + Schedule
+* [ ] Capstone: Sentinel
+
+---
+
+### Getting Started Right Now
+
+Start with **Module 1 – Exercise 1: Temperature Converter**. When done, paste your code in chat. Then we’ll do Module 1 – Exercise 2 and keep rolling! 🚀
